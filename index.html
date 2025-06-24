@@ -1,0 +1,665 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mark Ongele - Web Developer</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%2342DCA3'/><text x='50' y='65' font-size='50' text-anchor='middle' fill='%23121212' font-family='Arial, sans-serif' font-weight='bold'>SM</text></svg>">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --accent: #4245dc;
+            --accent-dark: #4245dc;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --radius-full: 50px;
+            --transition-fast: all 0.2s ease-in-out;
+            --transition-smooth: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        body {
+            --bg-primary: #1A1D24;
+            --bg-secondary: #232730;
+            --bg-nav: rgba(26, 29, 36, 0.8);
+            --text-primary: #F0F2F5;
+            --text-secondary: #a8b2d1;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --shadow-color: rgba(66, 220, 163, 0.1);
+        }
+        body.light-theme {
+            --bg-primary: #F8F9FA;
+            --bg-secondary: #FFFFFF;
+            --bg-nav: rgba(248, 249, 250, 0.85);
+            --text-primary: #1A1D24;
+            --text-secondary: #5a6178;
+            --border-color: rgba(0, 0, 0, 0.1);
+            --shadow-color: rgba(0, 0, 0, 0.08);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            font-family: 'Josefin Sans', serif;
+            line-height: 1.7;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            transition: background 0.3s, color 0.3s;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            line-height: 1.3;
+            color: var(--text-primary);
+        }
+        h1 { font-size: 2.8rem; }
+        h2 { font-size: 2.2rem; margin-bottom: 1.5rem; }
+        h3 { font-size: 1.8rem; margin-bottom: 1rem; }
+        h4 { font-size: 1.4rem; }
+        a { text-decoration: none; color: var(--accent); transition: var(--transition-fast); }
+        a:hover { color: var(--text-primary); }
+        img { max-width: 100%; height: auto; }
+        .container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            padding: 0.8rem 1.8rem;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            border: 2px solid transparent;
+            font-family: 'Josefin Sans', serif;
+        }
+        .btn-primary {
+            background: var(--accent);
+            color: #1A1D24;
+            border-color: var(--accent);
+        }
+        .btn-primary:hover {
+            background: var(--accent-dark);
+            border-color: var(--accent-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px -10px var(--accent);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+        .btn-secondary:hover {
+            background: var(--accent);
+            color: #1A1D24;
+            transform: translateY(-3px);
+        }
+        .section { padding: 6rem 0; }
+        .section-title {
+            position: relative;
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -0.8rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+        .navbar {
+            background: var(--bg-nav);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .navbar-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-family: 'Josephin Sans', serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .logo-circle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            background: var(--accent);
+            color: #1A1D24;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: transform 0.3s;
+        }
+        .logo:hover .logo-circle { transform: rotate(15deg); }
+        .nav-controls { display: flex; align-items: center; gap: 1rem; }
+        .nav-menu { display: flex; list-style: none; gap: 0.5rem; }
+        .nav-link {
+            color: var(--text-secondary);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-sm);
+            transition: var(--transition-fast);
+        }
+        .nav-link:hover, .nav-link.active {
+            color: var(--accent-dark);
+            background: var(--bg-secondary);
+        }
+        .nav-link i { margin-right: 0.4rem; }
+        .theme-toggle {
+            background: var(--bg-secondary);
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1.2rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-fast);
+        }
+        .theme-toggle:hover { color: var(--accent); }
+        .mobile-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+        .hero {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            padding: 6rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, var(--accent) 0%, transparent 60%);
+            transform: translate(-50%, -50%);
+            opacity: 0.05;
+            pointer-events: none;
+        }
+        .hero-container {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+            position: relative;
+            z-index: 2;
+        }
+        .hero-content { flex: 1.2; }
+        .hero-image {
+            flex: 0.8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 320px;
+            height: 400px; 
+            aspect-ratio: 1 / 1;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent) 0%, #232730 100%);
+            box-shadow: 0 8px 32px 0 rgba(66,220,163,0.18), 0 1.5px 8px 0 var(--shadow-color);
+            overflow: hidden;
+            transition: box-shadow 0.3s, transform 0.3s;
+        }
+        .hero-image:hover {
+            box-shadow: 0 16px 48px 0 rgba(66,220,163,0.28), 0 3px 16px 0 var(--shadow-color);
+            transform: scale(1.035) rotate(-2deg);
+        }
+        .profile-photo-img {
+            width: 100%;
+            height: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 50%;
+            box-shadow: 0 2px 12px 0 rgba(0,0,0,0.10);
+            transition: filter 0.3s;
+            display: block;
+        }
+        .hero-image:hover .profile-photo-img {
+            filter: brightness(1.08) saturate(1.15);
+        }
+        .hero-title {
+            font-size: 3.5rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+        .hero-title strong { color: var(--accent); }
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-weight: 400;
+        }
+        .hero-text {
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
+            max-width: 550px;
+            color: var(--text-secondary);
+        }
+        .hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
+        /* About Section (Mission & Interests) */
+        .about-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+        .about-card {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            padding: 2.5rem;
+            box-shadow: 0 4px 12px var(--shadow-color);
+            transition: var(--transition-smooth);
+            border: 1px solid var(--border-color);
+            height: 100%;
+        }
+        .about-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px var(--text-primary);
+        }
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            background: var(--accent);
+            color: #1A1D24;
+        }
+        .card-title { font-size: 1.6rem; margin-bottom: 0; }
+        .card-text { line-height: 1.8; color: var(--text-secondary); }
+        .skills { background: var(--bg-secondary); }
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .skill-card {
+            background: var(--bg-primary);
+            border-radius: var(--radius-md);
+            padding: 1.5rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: var(--transition-smooth);
+            border: 1px solid var(--border-color);
+        }
+        .skill-card:hover {
+            transform: translateY(-5px);
+            background: var(--text-secondary);
+            color: #1A1D24;
+        }
+        .skill-card:hover .skill-icon, .skill-card:hover .skill-name { color: #1A1D24; }
+        .skill-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+            transition: var(--transition-fast);
+        }
+        .skill-name {
+            font-weight: 500;
+            color: var(--text-primary);
+            transition: var(--transition-fast);
+        }
+        .footer {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            padding: 4rem 0 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2.5rem;
+        }
+        .footer-col h4 {
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        .footer-col h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--accent);
+        }
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: 0.8rem; }
+        .footer-links li i { margin-right: 0.5rem; }
+        .footer-links a {
+            color: var(--text-secondary);
+            transition: var(--transition-fast);
+        }
+        .footer-links a:hover {
+            color: var(--accent);
+            padding-left: 5px;
+        }
+        .social-links {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+        }
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            transition: var(--transition-smooth);
+        }
+        .social-links a:hover {
+            background: var(--accent);
+            color: #1A1D24;
+            transform: translateY(-3px);
+        }
+        .copyright {
+            text-align: center;
+            padding-top: 2.5rem;
+            margin-top: 2.5rem;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+        @media (max-width: 992px) {
+            .hero-container {
+                flex-direction: column-reverse;
+                text-align: center;
+                gap: 2rem;
+            }
+            .hero-content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .hero-buttons { justify-content: center; }
+        }
+        @media (min-width: 769px) {
+            .about-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 2.4rem; }
+            h2 { font-size: 1.8rem; }
+            .hero-title { font-size: 2.8rem; }
+            .mobile-toggle { display: block; }
+            .theme-toggle { margin-right: 0.5rem; }
+            .nav-menu {
+                display: none;
+                position: fixed;
+                top: 65px;
+                right: 0;
+                flex-direction: column;
+                background: var(--bg-secondary);
+                width: 100%;
+                height: calc(100vh - 65px);
+                padding: 2rem;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+                gap: 1.5rem;
+            }
+            .nav-menu.active { display: flex; }
+        }
+        @media (max-width: 576px) {
+            .hero-title { font-size: 2.4rem; }
+            .section { padding: 4rem 0; }
+            .hero-buttons { flex-direction: column; width: 100%; max-width: 300px; }
+            .btn { width: 100%; }
+            .hero-image { width: 220px; height: 220px; } /* Adjusted for smaller screens */
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-on-scroll { opacity: 0; transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+        .animate-on-scroll.is-visible { opacity: 1; transform: none; }
+        .slide-up { transform: translateY(30px); }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container navbar-container">
+            <a href="index.html" class="logo">
+                <span class="logo-circle">MO</span>
+            </a>
+            <div class="nav-controls">
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="index.html" class="nav-link active"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="portfolio.html" class="nav-link"><i class="fas fa-laptop-code"></i> Projects</a></li>
+                    <li><a href="contact.html" class="nav-link"><i class="fas fa-paper-plane"></i> Contact</a></li>
+                </ul>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+    <section class="hero">
+        <div class="container hero-container">
+            <div class="hero-image animate-on-scroll" data-animation="slide-up">
+                <img src="img/IMG_Face.jpg" alt="Mark Ongele Profile Picture" class="profile-photo-img" loading="lazy">
+            </div>
+            <div class="hero-content animate-on-scroll" data-animation="slide-up">
+                <h1 class="hero-title">Hello, I'm <strong>Mark Ongele</strong></h1>
+                <p class="hero-subtitle">Web Developer | Nairobi, Kenya</p>
+                <p class="hero-text">I transform your innovative ideas into user-friendly, visually appealing websites that boost your business. They drive results and create strong connections with your audience, ensuring your online presence is both attractive and highly functional.</p>
+                <div class="hero-buttons">
+                    <a href="portfolio.html" class="btn btn-primary"><i class="fas fa-folder-open"></i> View Projects</a>
+                    <a href="contact.html" class="btn btn-secondary"><i class="fas fa-handshake"></i> Contact Me</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-grid">
+                <div class="about-card animate-on-scroll" data-animation="slide-up">
+                    <div class="card-header">
+                        <div class="card-icon"><i class="fas fa-bullseye"></i></div>
+                        <h3 class="card-title">My Mission</h3>
+                    </div>
+                    <p class="card-text">
+                        My goal as a web designer and developer is to turn your vision into captivating, user-friendly websites. I leverage my technical expertise to create platforms that not only look great but also deliver results and build meaningful connections for your business. I’m passionate about crafting websites that unlock growth and engagement opportunities, expanding your reach. Ultimately, I’m dedicated to making your online presence both impactful and effective.
+                    </p>
+                </div>
+                <div class="about-card animate-on-scroll" data-animation="slide-up">
+                    <div class="card-header">
+                        <div class="card-icon"><i class="fas fa-heart"></i></div>
+                        <h3 class="card-title">My Interests</h3>
+                    </div>
+                    <p class="card-text">
+                        As a web designer and developer, I aim to transform your vision into engaging, intuitive websites. Using my technical skills, I build platforms that are visually appealing, drive results, and foster strong business connections. I’m committed to creating websites that open doors to growth and interaction, amplifying your reach. My focus is on ensuring your online presence is both dynamic and effective.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="skills" class="section skills">
+        <div class="container">
+            <h2 class="section-title">My Technical Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-card animate-on-scroll" data-animation="slide-up"><i class="fab fa-html5 skill-icon"></i><span class="skill-name">HTML5</span></div>
+                <div class="skill-card animate-on-scroll" data-animation="slide-up"><i class="fab fa-css3-alt skill-icon"></i><span class="skill-name">CSS3</span></div>
+                <div class="skill-card animate-on-scroll" data-animation="slide-up"><i class="fab fa-js-square skill-icon"></i><span class="skill-name">JavaScript</span></div>
+                <div class="skill-card animate-on-scroll" data-animation="slide-up"><i class="fab fa-react skill-icon"></i><span class="skill-name">React</span></div>
+                <div class="skill-card animate-on-scroll" data-animation="slide-up"><i class="fab fa-python skill-icon"></i><span class="skill-name">Python</span></div>
+                <div class="skill-card animate-on-scroll" data-animation="slide-up"><i class="fas fa-database skill-icon"></i><span class="skill-name">SQL</span></div>
+                <div class="skill-card animate-on-scroll" data-animation="slide-up"><i class="fab fa-git-alt skill-icon"></i><span class="skill-name">Git</span></div>
+                <div class="skill-card animate-on-scroll" data-animation="slide-up"><i class="fas fa-mobile-alt skill-icon"></i><span class="skill-name">Responsive</span></div>
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-col">
+                <h4>Mark Ongele</h4>
+                <p>Web developer crafting impactful digital experiences that foster connections and address real-world challenges.</p>
+               <div class="social-links">
+                    <a href="https://www.linkedin.com" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://github.com" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://dribbble.com" aria-label="Dribbble"><i class="fab fa-dribbble"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                    <li><a href="portfolio.html"><i class="fas fa-chevron-right"></i> Projects</a></li>
+                    <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Info</h4>
+                <ul class="footer-links">
+                    <li><i class="fas fa-map-marker-alt"></i> Nairobi, Kenya</li>
+                    <li><i class="fas fa-envelope"></i> markongele33@gmail.com</li>
+                    <li><i class="fas fa-phone"></i> +254 798 813 744</li>
+                </ul>
+            </div>
+        </div>
+        <div class="container copyright">
+            <p>&copy; 2025 Mark Ongele.</p>
+        </div>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" defer></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileToggle = document.getElementById('mobileToggle');
+            const navMenu = document.getElementById('navMenu');
+            const themeToggle = document.getElementById('themeToggle');
+            const body = document.body;
+            const themeIcon = themeToggle.querySelector('i');
+
+            mobileToggle.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                const isOpen = navMenu.classList.contains('active');
+                mobileToggle.setAttribute('aria-expanded', isOpen);
+                mobileToggle.innerHTML = isOpen ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+            });
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (navMenu.classList.contains('active')) {
+                       navMenu.classList.remove('active');
+                       mobileToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                       mobileToggle.setAttribute('aria-expanded', 'false');
+                    }
+                });
+            });
+
+            const applyTheme = (theme) => {
+                if (theme === 'light') {
+                    body.classList.add('light-theme');
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                } else {
+                    body.classList.remove('light-theme');
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                }
+            };
+
+            themeToggle.addEventListener('click', () => {
+                const currentTheme = body.classList.contains('light-theme') ? 'light' : 'dark';
+                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                localStorage.setItem('theme', newTheme);
+                applyTheme(newTheme);
+            });
+
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            applyTheme(savedTheme);
+
+            const scrollElements = document.querySelectorAll('.animate-on-scroll');
+
+            const elementInView = (el, dividend = 1) => {
+                const elementTop = el.getBoundingClientRect().top;
+                return (
+                    elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend
+                );
+            };
+
+            const displayScrollElement = (element) => {
+                element.classList.add('is-visible');
+                const animationType = element.getAttribute('data-animation');
+                if (animationType === 'slide-up') {
+                   element.style.transform = 'translateY(0)';
+                }
+            };
+
+            const handleScrollAnimation = () => {
+                scrollElements.forEach((el) => {
+                    if (elementInView(el, 1.25)) {
+                        displayScrollElement(el);
+                    }
+                });
+            }
+
+            // Throttle scroll events for better performance
+            let scrollTimeout;
+            window.addEventListener('scroll', () => {
+                if (!scrollTimeout) {
+                    scrollTimeout = setTimeout(() => {
+                        handleScrollAnimation();
+                        scrollTimeout = null;
+                    }, 100); // Adjust throttle time as needed
+                }
+            });
+
+            // Initial check for elements in view on load
+            handleScrollAnimation();
+        });
+    </script>
+</body>
+</html>
