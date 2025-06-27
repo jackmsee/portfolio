@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - MediCare Hospital</title>
+
+        <link rel="icon" href="favicon_io/android-chrome-512x512.png">
+
+        
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Lottie Player -->
+    <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+    <style>
+        /* ==== WHITE BACKGROUND STYLES ==== */
+        body {
+            background-color: white !important;
+        }
+        
+        /* ==== LOADER STYLES ==== */
+        #global-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        .loader-text {
+            color: #007bff;
+            margin-top: 20px;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        .loading-dots {
+            display: inline-block;
+        }
+        .loading-dots span {
+            animation: blink 1.4s infinite both;
+            opacity: 0;
+        }
+        .loading-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .loading-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        @keyframes blink {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        #page-loader-animation {
+            width: 300px;
+            height: 300px;
+        }
+
+        /* ==== FORM SUBMISSION ANIMATION ==== */
+        #form-submission-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white; /* Changed to solid white for better visibility */
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 9998;
+        }
+        .submission-message {
+            margin-top: 20px;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #1e40af;
+            text-align: center;
+            padding: 0 20px;
+        }
+        #success-animation-container {
+            width: 300px;
+            height: 300px;
+        }
+
+        /* ==== MAIN STYLES ==== */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        nav {
+            background-color: #e7e8e8;
+            color: rgb(33, 21, 208);
+            padding: 10px;
+        }
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        .main-content {
+            display: flex;
+            flex: 1;
+            max-width: 1200px;
+            margin: 20px auto;
+            width: 75%;
+            gap: 20px;
+        }
+        .contact-form {
+            width: 50%;
+            max-width: 500px;
+            padding: 40px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .image-section {
+            width: 50%;
+            background-image: url('img/need.jpg');
+            background-size: cover;
+            background-position: center;
+            border-radius: 10px;
+            min-height: 500px;
+        }
+        .contact-info-section {
+            margin: 40px auto;
+            width: 80%;
+            max-width: 1200px;
+            padding: 40px;
+            background-color: rgba(212, 64, 180, 0.9);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .contact-info {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #1e40af;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #374151;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        textarea {
+            resize: vertical;
+            height: 120px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #1e40af;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #1e3a8a;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .contact-info p {
+            margin: 10px 0;
+            color: #374151;
+            font-size: 16px;
+        }
+        .contact-info i {
+            margin-right: 10px;
+            color: #1e40af;
+        }
+        footer {
+            background-color: #1e40af;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: auto;
+        }
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+                width: 90%;
+            }
+            .contact-form {
+                width: 100%;
+                max-width: 100%;
+                padding: 20px;
+            }
+            .image-section {
+                width: 100%;
+                height: 300px;
+                min-height: auto;
+                order: -1;
+            }
+            .contact-info-section {
+                width: 90%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Page Loader Animation (shows on page load) -->
+    <div id="global-loader">
+        <dotlottie-player 
+            id="page-loader-animation"
+            src="https://lottie.host/2655a8d3-2537-4280-894f-943f4a1619ed/POCd3DXTSl.lottie" 
+            background="transparent" 
+            speed="1" 
+            loop 
+            autoplay>
+        </dotlottie-player>
+        <div class="loader-text">
+            MediCare<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span>
+        </div>
+    </div>
+
+    <!-- Form Submission Animation (hidden initially) -->
+    <div id="form-submission-animation">
+        <div id="success-animation-container"></div>
+        <div class="submission-message">Your message has been sent successfully!</div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="header">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="img/logobg.png" alt="MediCare Hospital Logo">
+                </a>
+            </div>
+            <div class="container">
+                <h1>MediCare Hospital</h1>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <section class="main-content">
+        <div class="contact-form">
+            <h2>Contact Us</h2>
+            <form id="contactForm" action="https://formspree.io/f/xdkzpvkd" method="POST">
+                <div>
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div>
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div>
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" name="subject" required>
+                </div>
+                <div>
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+                <input type="hidden" name="_subject" value="New Contact Form Submission from MediCare">
+                <button type="submit" id="submitBtn">Send Message</button>
+            </form>
+        </div>
+        <div class="image-section"></div>
+    </section>
+
+    <!-- Contact Info Section -->
+    <section class="contact-info-section">
+        <div class="contact-info">
+            <h2>Get in Touch</h2>
+            <p><i class="fas fa-phone"></i>Phone: (254) 7456-7890</p>
+            <p><i class="fas fa-envelope"></i>Email: info@medicarehospital.com</p>
+            <p><i class="fas fa-map-marker-alt"></i>Address: 123 Health St, Wellness City, HC 12345</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 MediCare Hospital. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Hide loader when page finishes loading
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                const loader = document.getElementById('global-loader');
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                }, 500);
+            }, 1500);
+        });
+
+        // Form submission handler
+        document.getElementById('contactForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const form = event.target;
+            const submitBtn = document.getElementById('submitBtn');
+            const submissionAnimation = document.getElementById('form-submission-animation');
+            const successContainer = document.getElementById('success-animation-container');
+            
+            // Change button to loading state
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+            
+            try {
+                // Create success animation only when form is submitted
+                successContainer.innerHTML = '';
+                const anim = document.createElement('dotlottie-player');
+                anim.setAttribute('src', 'https://lottie.host/71c20d00-d5db-4971-ab5b-ee1606a94724/cJiOzQ9Ved.lottie');
+                anim.setAttribute('background', 'transparent');
+                anim.setAttribute('speed', '1');
+                anim.style.width = '300px';
+                anim.style.height = '300px';
+                anim.setAttribute('autoplay', '');
+                successContainer.appendChild(anim);
+                
+                // Show submission animation
+                submissionAnimation.style.display = 'flex';
+                
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    // Success - keep showing animation for 3 seconds
+                    setTimeout(() => {
+                        submissionAnimation.style.display = 'none';
+                        form.reset();
+                    }, 3000);
+                } else {
+                    throw new Error('Form submission failed');
+                }
+            } catch (error) {
+                // Error state
+                document.querySelector('.submission-message').textContent = 'Oops! There was a problem. Please try again.';
+                setTimeout(() => {
+                    submissionAnimation.style.display = 'none';
+                }, 3000);
+                console.error(error);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+            }
+        });
+    </script>
+</body>
+</html>

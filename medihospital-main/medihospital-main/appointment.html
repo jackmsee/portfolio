@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Appointment Booking</title>
+
+    <link rel="icon" href="favicon_io/android-chrome-512x512.png">
+
+    <!-- Lottie Player -->
+    <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+    <style>
+        /* ==== LOADER STYLES ==== */
+        #global-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white; /* Changed to solid white */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        .loader-text {
+            color: #007bff;
+            margin-top: 20px;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        .loading-dots {
+            display: inline-block;
+        }
+        .loading-dots span {
+            animation: blink 1.4s infinite both;
+            opacity: 0;
+        }
+        .loading-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .loading-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        @keyframes blink {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* ==== FORM SUBMISSION ANIMATION ==== */
+        #form-submission-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white; /* Also made solid white for consistency */
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 9998;
+        }
+        .submission-message {
+            margin-top: 20px;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #1e40af;
+            text-align: center;
+            padding: 0 20px;
+        }
+        #success-animation-container {
+            width: 300px;
+            height: 300px;
+        }
+
+        /* ==== MAIN STYLES ==== */
+        body {
+            background-image: url('img/bgappointment.jpg');
+            background-size: cover;
+            background-position: left;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+        }
+        .logo {
+            display: flex;
+            justify-content: left;
+            align-items: left;
+            order: -80;
+        }
+        .logo img {
+            height: 50px;
+            width: auto;
+        }
+        nav {
+            background-color: #e7e8e8;
+            color: rgb(31, 28, 216);
+            padding: 1px;
+        }
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .form-container {
+            margin-left: auto;
+            width: 50%;
+            padding: 40px;
+            background-color: rgba(255, 255, 255, 0.85);
+            height: 100%;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #1e40af;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #374151;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        textarea {
+            resize: vertical;
+            height: 100px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #1e40af;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #1e3a8a;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        footer {
+            background-color: #1e40af;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: auto;
+        }
+        @media (max-width: 768px) {
+            .form-container {
+                width: 100%;
+                padding: 20px;
+                margin: 0;
+                background-color: rgba(255, 255, 255, 0.95);
+            }
+            .logo img {
+                height: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Full Page Loader with Animation - Now fully opaque -->
+    <div id="global-loader">
+        <dotlottie-player 
+            src="https://lottie.host/2655a8d3-2537-4280-894f-943f4a1619ed/POCd3DXTSl.lottie" 
+            background="transparent" 
+            speed="1" 
+            style="width: 300px; height: 300px" 
+            loop 
+            autoplay>
+        </dotlottie-player>
+        <div class="loader-text">
+            MediCare<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span>
+        </div>
+    </div>
+
+    <!-- Form Submission Success Animation - Also fully opaque -->
+    <div id="form-submission-animation">
+        <div id="success-animation-container"></div>
+        <div class="submission-message">Your appointment has been booked successfully!</div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="img/logobg.png" alt="MediCare Hospital Logo">
+                </a>
+            </div>
+            <h1>MediCare Hospital</h1>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <section style="flex: 1;">
+        <div class="form-container">
+            <form id="appointmentForm" action="https://formspree.io/f/mqabwedl" method="POST">
+                <h2>Book an Appointment</h2>
+                <div>
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div>
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div>
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div>
+                    <label for="department">Department</label>
+                    <select id="department" name="department" required>
+                        <option value="" disabled selected>Select Department</option>
+                        <option value="cardiology">Cardiology</option>
+                        <option value="neurology">Neurology</option>
+                        <option value="orthopedics">Orthopedics</option>
+                        <option value="pediatrics">Pediatrics</option>
+                        <option value="emergency services">Emergency Services</option>
+                        <option value="radiology">Radiology</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="date">Preferred Date</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+                <div>
+                    <label for="message">Additional Information</label>
+                    <textarea id="message" name="message"></textarea>
+                </div>
+                <input type="hidden" name="_subject" value="New Appointment Booking from MediCare Hospital">
+                <button type="submit" id="submitBtn">Submit Appointment</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 MediCare Hospital. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Hide loader when page finishes loading
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                const loader = document.getElementById('global-loader');
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                }, 500);
+            }, 1500);
+        });
+
+        // Form submission handler
+        document.getElementById('appointmentForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const form = event.target;
+            const submitBtn = document.getElementById('submitBtn');
+            const submissionAnimation = document.getElementById('form-submission-animation');
+            const successContainer = document.getElementById('success-animation-container');
+            
+            // Change button to loading state
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Processing...';
+            
+            try {
+                // Create success animation only when form is submitted
+                successContainer.innerHTML = '';
+                const anim = document.createElement('dotlottie-player');
+                anim.setAttribute('src', 'https://lottie.host/71c20d00-d5db-4971-ab5b-ee1606a94724/cJiOzQ9Ved.lottie');
+                anim.setAttribute('background', 'transparent');
+                anim.setAttribute('speed', '1');
+                anim.style.width = '300px';
+                anim.style.height = '300px';
+                anim.setAttribute('autoplay', '');
+                successContainer.appendChild(anim);
+                
+                // Show submission animation
+                submissionAnimation.style.display = 'flex';
+                
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    // Success - keep showing animation for 3 seconds
+                    document.querySelector('.submission-message').textContent = 'Your appointment has been booked successfully!';
+                    setTimeout(() => {
+                        submissionAnimation.style.display = 'none';
+                        form.reset();
+                    }, 3000);
+                } else {
+                    throw new Error('Form submission failed');
+                }
+            } catch (error) {
+                // Error state
+                document.querySelector('.submission-message').textContent = 'Oops! There was a problem. Please try again.';
+                setTimeout(() => {
+                    submissionAnimation.style.display = 'none';
+                }, 3000);
+                console.error(error);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Appointment';
+            }
+        });
+    </script>
+</body>
+</html>
